@@ -1,0 +1,60 @@
+﻿<html>
+	<title>Bludit-API</title>
+    <head>
+	   	<meta charset="utf-8">
+        <meta name="viewport"  content="width=device-width, initial-scale=1">
+        <meta name="author"    content="Oliver Lohse">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    </head>
+    <style>
+    	img {
+    		width: 100%;
+    	}
+    </style>
+
+<body>
+	<div class="container-fluid bg-light shadow-lg">
+		<div class="container py-5">
+			<h1 id="title">      </h1>
+			<p class="lead" id="description"></p>
+		</div>
+	</div>
+	
+	<div class="container py-5">
+		<div id="coverImage" class="text-center"></div>
+		<p  id="content">    </p>
+		<p class="small text-muted">
+			<span id="date"></span> - 
+			<span id="tags"></span>    
+		</p>
+	</div>
+</body>
+
+
+<script>
+	//var req = "https://www.cmsworkbench.de/api/pages?token=0123456789&numberOfItems=14";
+	var req = "https://www.cmsworkbench.de/api/pages/was-ist-die-bludit-api?token=0123456789";
+	
+	var request = new XMLHttpRequest();
+
+	request.open("GET",req);
+	
+	request.addEventListener('load', function(event) {
+   		if (request.status >= 200 && request.status < 300) {
+    		console.log(request.responseText);
+    		var obj = JSON.parse(request.responseText);
+    		document.getElementById('title').innerHTML       = obj['data']['title'];
+    		document.getElementById('description').innerHTML = obj['data']['description'];
+    		document.getElementById('content').innerHTML     = obj['data']['content'];
+    		document.getElementById('date').innerHTML        = obj['data']['date'];
+    		document.getElementById('tags').innerHTML        = obj['data']['tags'];
+    		document.getElementById('coverImage').innerHTML  = '<img src="' + obj['data']['coverImage'] + '" class="w-25">';
+    		
+   		} else {
+      		console.warn(request.statusText, request.responseText);
+   		}
+	});
+	request.send();
+</script>
+
+</html>
